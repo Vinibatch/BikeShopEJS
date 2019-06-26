@@ -39,12 +39,15 @@ var dataCardBike = [];
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  if (req.session.dataCardBike==undefined){
+    req.session.dataCardBike=[];
+  }
   res.render('index', {databike} );
 });
 
 router.post('/shop', function(req, res, next) {
 
-  dataCardBike.push (
+  req.sessions.dataCardBike.push (
     {
     nom : req.body.bikeNomFromFront,
     prix  :  req.body.bikePrixFromFront, 
@@ -52,13 +55,13 @@ router.post('/shop', function(req, res, next) {
     quantity : req.body.bikeQuantityFromFront
   });
 
-  res.render('shop', {dataCardBike});
+  res.render('shop', {dataCardBike:req.session.dataCardBike});
 });
 
 
 router.get('/delete-shop', function (req,res,next) {
-  dataCardBike.slice(req.query.position,1);
-  res.render("shop", {dataCardBike});
+  req.session.dataCardBike.slice(req.query.position,1);
+  res.render("shop", {dataCardBike:req.session.dataCardBike});
 });
 
 
